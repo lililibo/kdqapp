@@ -22,69 +22,25 @@
     var isAndroid = /Android/.test(ua);
 
     function setupWebViewJavascriptBridge(callback) {
-    if (window.WebViewJavascriptBridge) {
+      if (window.WebViewJavascriptBridge) {
         return callback(WebViewJavascriptBridge);
-    }
-    if (window.WVJBCallbacks) {
+      }
+      if (window.WVJBCallbacks) {
         return window.WVJBCallbacks.push(callback);
-    }
-    window.WVJBCallbacks = [callback];
-    var WVJBIframe = document.createElement('iframe');
-    WVJBIframe.style.display = 'none';
-    WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
-    document.documentElement.appendChild(WVJBIframe);
-    setTimeout(function () {
+      }
+      window.WVJBCallbacks = [callback];
+      var WVJBIframe = document.createElement('iframe');
+      WVJBIframe.style.display = 'none';
+      WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+      document.documentElement.appendChild(WVJBIframe);
+      setTimeout(function () {
         document.documentElement.removeChild(WVJBIframe)
-    }, 0)
-}
-
-
-
-
-
-    // js 原生交互代码
-    function connectWebViewJavascriptBridge(callback) {
-        if (window.WebViewJavascriptBridge) {
-          callback(WebViewJavascriptBridge);
-        } else {
-          document.addEventListener(
-            'WebViewJavascriptBridgeReady',
-            function() {
-              callback(WebViewJavascriptBridge);
-            },
-            false
-          );
-          if (!isAndroid) {
-            if (window.WebViewJavascriptBridge) {
-              return callback(WebViewJavascriptBridge);
-            }
-            if (window.WVJBCallbacks) {
-              return window.WVJBCallbacks.push(callback);
-            }
-            window.WVJBCallbacks = [callback];
-            var WVJBIframe = document.createElement('iframe');
-            WVJBIframe.style.display = 'none';
-            WVJBIframe.src = 'https://__bridge_loaded__';
-            document.documentElement.appendChild(WVJBIframe);
-            setTimeout(function() {
-              document.documentElement.removeChild(WVJBIframe);
-            }, 0);
-          }
-        }
-      }
-
-      function connectAppShare(name,str,responseCallback) {
-      if (isAndroid) {
-        CgwsH5JS.name(str);
-      } else {
-        connectWebViewJavascriptBridge(function(bridge) {
-          bridge.callHandler(name, str, responseCallback);
-        });
-      }
+      }, 0)
     }
+
   </script>
   <div id="app">
-      
+
   </div>
 </body>
 

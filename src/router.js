@@ -7,18 +7,16 @@ export default new VueRouter({
       path: '/', component: () => import('./view/Login.vue')
     },
     {
-      path: '/redrecord', component: () => import('./view/Redrecord.vue'),meta: { title: '红包记录' }
+      path: '/redrecord', component: () => import('./view/Redrecord.vue'), meta: { title: '红包记录' }
     },
     {
-      path: '/couponrecord', component: () => import('./view/Couponrecord.vue'),meta: { title: '卡券记录' }
+      path: '/couponrecord', component: () => import('./view/Couponrecord.vue'), meta: { title: '卡券记录' }
     },
     {
-      path: '/personset', component: () => import('./view/Personset.vue'),meta: { title: '个人设置' }
+      path: '/personset', component: () => import('./view/Personset.vue'), meta: { title: '个人设置' }
     },
     {
-      path: '/balance',
-      component: () => import('./view/Balance.vue'),
-      meta: { title: '我的余额' },
+      path: '/balance', component: () => import('./view/Balance.vue'), meta: { title: '我的余额' },
     },
     {
       path: '/recharge', component: () => import('./view/Recharge.vue'), meta: { title: '充值' }
@@ -40,6 +38,9 @@ export default new VueRouter({
     },
     {
       path: '/team', component: () => import('./view/Team.vue'), meta: { title: '我的团队' }
+    },
+    {
+      path: '/mycode', component: () => import('./view/Mycode.vue'), meta: { title: '推广二维码' }
     },
   ]
 })

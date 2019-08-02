@@ -1,12 +1,11 @@
 <template>
   <div>
-    <!-- <div class="btn" @click="back">登录</div> -->
+    <div class="btn" @click="back">登录</div>
     <div class="btn" @click="gettoken">获取token</div>
-    <div>token{{token}}</div>
-    <div class="btn" @click="refresh">刷新token<div>
+    <div>token{{token.token}}</div>
+    <div class="btn" @click="refresh">刷新token</div>
       <div>刷新的token{{refreshToken}}</div>
-    </div>关闭页面</div>
-    
+    <div class="btn" @click="close">关闭页面</div>
     
   </div>
 </template>
@@ -21,40 +20,47 @@ export default {
     };
   },
   mounted() {
-    var that = this
-
-    // setupWebViewJavascriptBridge(function(bridge) {
-    //   bridge.callHandler(
-    //     "getToken",
-    //     { titile: 1111 },
-    //     function responseCallback(responseData) {
-    //       that.token = JSON.stringify(responseData);
-    //     }
-    //   );
-    // });
-  
     
-
-  
-    
-  
-        
   },
   methods: {
     back() {
-      this.$router.push("/team");
+      this.$router.push("/mycode");
     },
     gettoken() {
-      connectAppShare('getToken',function responseCallback(responseData) {
-      　　　　that.token = responseData
-
-      　　})
+      if(isAndroid){
+        this.token =  window.android.getToken()
+      }else{
+        
+      setupWebViewJavascriptBridge(bridge=> {
+      bridge.callHandler(
+        "getToken",
+        { titile: 1111 },
+        responseData =>{
+          this.token = responseData;
+        }
+      )
+    })
+      }
+      
+    },
+    close() {
+      setupWebViewJavascriptBridge(bridge =>{
+      bridge.callHandler(
+        "closeWebPage"
+      )
+    })
     },
     refresh() {
-      connectAppShare('refreshToken',function responseCallback(responseData) {
-      　　　　that.refreshToken = responseData
-
-      　　})
+      var that = this
+      setupWebViewJavascriptBridge(bridge =>{
+      bridge.callHandler(
+        "refreshToken",
+        { titile: 1111 },
+        responseData=> {
+          this.refreshToken = JSON.stringify(responseData);
+        }
+      )
+    })
     }
   }
 };

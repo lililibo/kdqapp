@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import axios from "axios";
 const areaList = { province_list: {
     110000: '北京市',
     120000: '天津市',
@@ -4102,6 +4103,7 @@ export default {
     return{
       city: '',
       time:'',
+      token:'',
       loading:false,//是否在提交中
       loadingtext:'',//提交中
       radio: '1',//选择性别
@@ -4116,6 +4118,30 @@ export default {
       bank:'',//输入的银行
       bankdetail:'',//开户支行
       areaList: areaList//所有地区
+    }
+  },
+  mounted() {
+    var that = this;
+    if (isAndroid) {
+      this.token = window.android.getToken();
+    } else {
+      setupWebViewJavascriptBridge(bridge => {
+        bridge.callHandler("getToken", { titile: 1111 }, responseData => {
+          this.token = responseData.token;
+          axios
+            .get("https://api.test.fn112.com/user", {
+              header: {
+                Authorization: "bearer" + this.token
+              }
+            })
+            .then(function(res) {
+              that.$toast(res)
+            })
+            .catch(function(err) {
+              that.$toast(err.message)
+            });
+        });
+      });
     }
   },
   methods:{
