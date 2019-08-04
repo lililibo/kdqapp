@@ -13,23 +13,22 @@
 
 <script>
 import axios from "axios";
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      token: "",
-      res: ""
+      res: ''
     };
+  },
+  computed: {
+    ...mapState([
+      'token'
+    ])
   },
   mounted() {
     var that = this;
-    if (isAndroid) {
-      this.token = window.android.getToken();
-    } else {
-      setupWebViewJavascriptBridge(bridge => {
-        bridge.callHandler("getToken", { titile: 1111 }, responseData => {
-          this.token = responseData.token;
-          console.log(this.token);
-          axios
+    if(this.token) {
+      axios
             .get("https://api.test.fn112.com/User/GetUserId", {
               header: {
                 Authorization: "bearer" + this.token
@@ -41,9 +40,29 @@ export default {
             .catch(function(err) {
               that.$toast(err.message)
             });
-        });
-      });
     }
+    // if (window.isAndroid) {
+    //   this.token = window.android.getToken();
+    // } else {
+    //   window.setupWebViewJavascriptBridge(bridge => {
+    //     bridge.callHandler("getToken", { titile: 1111 }, responseData => {
+    //       this.token = responseData.token;
+    //       console.log(this.token);
+    //       axios
+    //         .get("https://api.test.fn112.com/User/GetUserId", {
+    //           header: {
+    //             Authorization: "bearer" + this.token
+    //           }
+    //         })
+    //         .then(function(res) {
+    //           that.token = res;
+    //         })
+    //         .catch(function(err) {
+    //           that.$toast(err.message)
+    //         });
+    //     });
+    //   });
+    // }
   }
 };
 </script>

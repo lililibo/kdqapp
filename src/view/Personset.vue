@@ -4122,10 +4122,10 @@ export default {
   },
   mounted() {
     var that = this;
-    if (isAndroid) {
+    if (window.isAndroid) {
       this.token = window.android.getToken();
     } else {
-      setupWebViewJavascriptBridge(bridge => {
+      window.setupWebViewJavascriptBridge(bridge => {
         bridge.callHandler("getToken", { titile: 1111 }, responseData => {
           this.token = responseData.token;
           axios

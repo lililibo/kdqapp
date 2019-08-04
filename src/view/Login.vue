@@ -27,11 +27,11 @@ export default {
       this.$router.push("/mycode");
     },
     gettoken() {
-      if(isAndroid){
+      if(window.isAndroid){
         this.token =  window.android.getToken()
       }else{
         
-      setupWebViewJavascriptBridge(bridge=> {
+      window.setupWebViewJavascriptBridge(bridge=> {
       bridge.callHandler(
         "getToken",
         { titile: 1111 },
@@ -44,15 +44,14 @@ export default {
       
     },
     close() {
-      setupWebViewJavascriptBridge(bridge =>{
+      window.setupWebViewJavascriptBridge(bridge =>{
       bridge.callHandler(
         "closeWebPage"
       )
     })
     },
     refresh() {
-      var that = this
-      setupWebViewJavascriptBridge(bridge =>{
+      window.setupWebViewJavascriptBridge(bridge =>{
       bridge.callHandler(
         "refreshToken",
         { titile: 1111 },
